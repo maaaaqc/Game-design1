@@ -376,15 +376,21 @@ public class generate_maze : MonoBehaviour
 
     private void OnTriggerEnter(Collider otherObj) {
         if (otherObj.gameObject.tag == "Floor"){
-            time += 1;
-            show_way();
-            build_solution();
-            cur_row = 0;
-            cur_col = 0;
-            aldous_broder();
+            if (!otherObj.gameObject.GetComponent<tile>().on){
+                time += 1;
+                show_way();
+                build_solution();
+                cur_row = 0;
+                cur_col = 0;
+                aldous_broder();
+                otherObj.gameObject.GetComponent<tile>().on = true;
+            }
         }
         if (otherObj.gameObject.tag == "Win"){
             Instantiate(message, new Vector3(9, 0.2f, 29), Quaternion.identity);
+            time = 0;
+            gameObject.transform.position = new Vector3(10, 2.5f, 2);
+            gameObject.GetComponent<CharacterController>().enabled = false;
         }
     }
 
